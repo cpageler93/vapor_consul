@@ -1,13 +1,17 @@
-# ubuntu 16.04 + vapor toolbox
-FROM vapor/vapor
+# ubuntu 16.04 + swift 4
+FROM swiftdocker/swift:latest
 
 MAINTAINER Christoph Pageler
 
+# Get Vapor apt
+RUN curl -sL https://apt.vapor.sh | bash;
+
 # install packages
 RUN apt-get update && apt-get install -y \
-    unzip
+    unzip vapor
 
 # install ruby
+RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 RUN \curl -L https://get.rvm.io | bash -s stable
 ENV PATH /usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RUN /bin/bash -l -c "rvm requirements"
