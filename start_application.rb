@@ -14,12 +14,20 @@ class VaporApplication
       c.description = 'Starts the application'
       c.action do |args, options|
 
+        consul_params ||= ENV['CONSUL_PARAMS']
+        consul_params ||= "agent"
+        
+        vapor_params ||= ENV['VAPOR_PARAMS']
+        vapor_params ||= "serve --env=production"
+        
         puts "run consul"
-        consul_pid = spawn("nohup consul agent -dev -ui -client 0.0.0.0")
+        consul_cmd = "nohup consul #{consul_params}"
+        consul_pid = spawn(consul_cmd)
         Process.detach(consul_pid)
 
         puts "run vapor application"
-        `.build/release/Run serve --env=production`
+        vapor_cmd = ".build/release/Run #{vapor_params}"
+        `#{vapor_cmd}`
 
       end
     end
