@@ -27,7 +27,8 @@ class VaporApplication
 
         puts "run vapor application"
         vapor_cmd = ".build/release/Run #{vapor_params}"
-        `#{vapor_cmd}`
+        vapor_pid = spawn(vapor_cmd)
+        Process.wait(vapor_pid)
 
       end
     end
